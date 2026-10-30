@@ -31,7 +31,7 @@ python3 -m http.server 8080  # http://127.0.0.1:8080/
 ## Публикация на GitHub Pages
 
 Сайт уже опубликован:
-https://voroninded1987-dot.github.io/kvadrat-vkube/
+https://kaknado-pro.github.io/kvadrat-vkube/
 
 Чтобы перенести на другой аккаунт/организацию:
 
