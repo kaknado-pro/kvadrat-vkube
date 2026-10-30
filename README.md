@@ -1,56 +1,55 @@
-# КвадратВкубе — копия сайта 1:1
+# КвадратВкубе — копия сайта (демо)
 
 Точная копия сайта https://6ent054378-sudo.github.io/kvadratkube-demo/
-(ремонт квартир и домов под ключ в Ставрополе).
+с правками:
 
-## Состав
+- Телефон компании убран со всех страниц
+- В шапке и подвале — логотип **Exponent Digital** с подписью
+  «Разработка сайта и маркетинг», ссылка на
+  https://voroninded1987-dot.github.io/exponent-digital/
+- Мессенджеры (WhatsApp/Telegram) переведены на контакты разработчика
+- Формы работают в демо-режиме: валидация телефона и галочки,
+  после отправки — редирект на `spasibo.html`. Заявки никуда
+  не отправляются (сохраняются в localStorage под ключом `kv_leads_demo`)
 
-- `index.html` — главная страница (хиро, квиз-калькулятор, замер, работы, сравнение, FAQ, контакты)
-- `o-kompanii.html`, `nashi-proekty.html`, `dizajn-proekty.html`, `contacts.html`, `privacy.html`, `spasibo.html`
-- Страницы объектов: `zhk-salyut.html`, `kvartira-zhk-melodiya.html`, `kvartira-zhk-nasledie.html`, `sanuzel-v-dvuhkomnatnoj-kvartire.html`, `chastnyj-dom-v-poselke-grushevyj.html`, `chastnii-dom-v-mihailovske.html`, `chastnyj-dom-v-sovremennom-stile.html`, `snt-radonezh.html`, `sovremennyj-dnevnik-vashego-remonta.html`
-- `404.html`, `robots.txt`, `sitemap.xml`
-- `assets/` — стили, шрифты, изображения, видео и скрипты (все файлы загружены с оригинала, байт в байт)
+## Как включить доставку заявок на email
 
-## Как открыть
+1. В `index.html` найдите функцию `window.kvLead` (помечена `ДЕМО-РЕЖИМ`).
+2. Замените её на вариант из комментария рядом (formsubmit.co) и укажите
+   свой email вместо `ВАШ_EMAIL`.
+3. Отправьте тестовую заявку — на email придёт письмо-активация
+   от formsubmit.co, нажмите «Activate».
 
-Открывать нужно через локальный сервер (иначе браузер заблокирует шрифты
-по CORS-политике для file://):
+## Локальный запуск
 
 ```bash
-cd путь/к/папке
-./start.command          # macOS: запустит сервер и откроет браузер
+./start.command            # macOS: сервер + браузер
+# или
+python3 -m http.server 8080  # http://127.0.0.1:8080/
 ```
 
-или вручную:
+## Публикация на GitHub Pages
+
+Сайт уже опубликован:
+https://voroninded1987-dot.github.io/kvadrat-vkube/
+
+Чтобы перенести на другой аккаунт/организацию:
 
 ```bash
-python3 -m http.server 8080
-# открыть http://127.0.0.1:8080/
-```
-
-## Как опубликовать на GitHub Pages
-
-1. Создайте на GitHub репозиторий, например `kvadratkube`.
-2. В корне уже есть `.nojekyll`-содержимое не требуется — файлы отдаются как есть.
-   (При необходимости добавьте пустой файл `.nojekyll`.)
-3. Зальём папку в репозиторий:
-
-```bash
+git clone https://github.com/voroninded1987-dot/kvadrat-vkube.git
+# или просто залейте содержимое папки в новый репозиторий:
 git init
 git add -A
-git commit -m "КвадратВкубе — копия сайта"
+git commit -m "kvadrat-vkube"
 git branch -M main
-git remote add origin https://github.com/ВАШ_АККАУНТ/ИМЯ_РЕПО.git
+git remote add origin https://github.com/АККАУНТ/kvadrat-vkube.git
 git push -u origin main
+# затем в настройках репозитория: Settings → Pages → Branch: main, / (root)
 ```
 
-4. В репозитории: Settings → Pages → Branch: `main`, папка `/ (root)` → Save.
-   Сайт появится на `https://ВАШ_АККАУНТ.github.io/ИМЯ_РЕПО/`.
-
-## Примечания
-
-- Отправка форм идёт на `/lead.php` с фолбэком на
-  `https://kvadratvkube.vercel.app/api/lead` — как в оригинале.
-  На GitHub Pages формы будут отправлять лиды на этот фолбэк.
-- Яндекс.Метрика и счётчики подключены к оригинальному счётчику (106016821) —
-  как в исходном коде.
+Адрес вида `https://АККАУНТ.github.io/kvadrat-vkube/` всегда содержит имя
+аккаунта GitHub — это ограничение платформы. Чтобы в адресе не было
+имени аккаунта, нужно:
+1) создать бесплатную организацию на GitHub (например, `kvadrat-vkube`) —
+   адрес станет `kvadrat-vkube.github.io/kvadrat-vkube/`, или
+2) привязать свой домен (Settings → Pages → Custom domain).

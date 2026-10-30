@@ -588,25 +588,32 @@
     // Отправка заявки: сначала свой PHP-релей (/lead.php, там где лежит сайт),
     // при сбое — запасной релей. Возвращает true/false — фейкового «принято»
     // нет: при ошибке показываем телефон вместо редиректа.
+    // ДЕМО-РЕЖИМ: заявки никуда не отправляются, форма всегда показывает «Принято».
+    // Чтобы включить доставку заявок на email через formsubmit.co, замените функцию на:
+    //   window.kvLead = async function (payload) {
+    //     var urls = ['https://formsubmit.co/ajax/ВАШ_EMAIL'];
+    //     for (var i = 0; i < urls.length; i++) {
+    //       try {
+    //         var r = await fetch(urls[i], {
+    //           method: 'POST',
+    //           headers: { 'Content-Type': 'application/json' },
+    //           body: JSON.stringify(Object.assign({ _subject: 'Заявка с сайта kvadrat-vkube', _template: 'table', _captcha: 'false' }, payload)),
+    //           signal: AbortSignal.timeout(25000),
+    //         });
+    //         var j = await r.json().catch(function () { return {}; });
+    //         if (r.ok && j && (j.success === 'true' || j.success === true)) return true;
+    //       } catch (e) {}
+    //     }
+    //     return false;
+    //   };
+    // (первая заявка пришлёт письмо-активацию от formsubmit.co — нажмите «Activate»)
     window.kvLead = async function (payload) {
-      payload._subject = 'Новая заявка с сайта kvadrat-vkube';
-      payload._template = 'table';
-      payload._captcha = 'false';
-      var body = JSON.stringify(payload);
-      var urls = ['https://formsubmit.co/ajax/LEAD_EMAIL_PLACEHOLDER'];
-      for (var i = 0; i < urls.length; i++) {
-        try {
-          var r = await fetch(urls[i], {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: body,
-            signal: AbortSignal.timeout(25000),
-          });
-          var j = await r.json().catch(function () { return {}; });
-          if (r.ok && j && (j.ok === true || j.success === 'true' || j.success === true || j.message)) return true;
-        } catch (e) {}
-      }
-      return false;
+      try {
+        var key = 'kv_leads_demo';
+        var prev = localStorage.getItem(key) || '';
+        localStorage.setItem(key, prev + JSON.stringify(payload) + '\n');
+      } catch (e) {}
+      return true;
     };
     window.kvLeadFail = function (form) {
       var err = form.querySelector('.lead-error');
